@@ -46,8 +46,8 @@ input:focus{outline:2px solid var(--gold);border-color:var(--gold)}
 .btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;font-size:16px;padding:13px;border-radius:10px;border:0;cursor:pointer;margin-top:14px;box-shadow:0 3px 0 rgba(0,0,0,.14)}
 .btn:active{transform:translateY(2px);box-shadow:none}
 .btn:disabled{opacity:.5;cursor:default;transform:none}
-.btn.navy{background:var(--navy);color:#fff}
-.btn.cream{background:var(--cream-2);color:var(--navy)}
+.btn.navy{background:var(--gold);color:var(--navy-2)}
+.btn.cream{background:var(--gold-2);color:var(--navy-2)}
 .btn.gold{background:var(--gold);color:var(--navy-2)}
 .msg{min-height:22px;margin:10px 0 0;font-size:14px;color:var(--gold-d);font-weight:500}
 .head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
@@ -82,7 +82,12 @@ body.host .hostonly{display:block}
 .sum li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:15px}
 .sum li b{color:var(--cream-2)}
 .sum .none{color:#D5DCE6;font-size:14.5px}
-footer{background:var(--navy-2);color:#C8D0DB;text-align:center;padding:18px 16px;font-size:14px}
+footer{background:var(--navy-2);color:#C8D0DB;text-align:center;padding:18px 16px 22px;font-size:14px}
+footer .ftxt{margin:0}
+footer .fbtns{display:none;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:12px}
+body.host footer .fbtns{display:flex}
+footer .sheetbtn{display:inline-block;padding:11px 22px;border-radius:10px;background:var(--gold);color:var(--navy-2);font-weight:700;text-decoration:none;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+footer .sheetbtn:hover{background:var(--gold-2)}
 .confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
 .confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall 2.6s linear forwards}
 @keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
@@ -146,11 +151,17 @@ footer{background:var(--navy-2);color:#C8D0DB;text-align:center;padding:18px 16p
     <div class="sum"><h3 class="serif">전체 주문 정리</h3><div id="sum"><p class="none">담당자가 정해지면 전체 주문이 여기에 정리됩니다.</p></div></div>
   </section>
 </main>
-<footer>오늘도 즐거운 커피 시간 보내세요 · 이 앱도 클로드와 대화로 만들었습니다</footer>
+<footer>
+  <p class="ftxt">오늘도 즐거운 커피 시간 보내세요</p>
+  <div class="fbtns">
+    <a class="sheetbtn" href="https://docs.google.com/spreadsheets/d/16RcgU4hq_QqMzwPwb32zXiEUy6wfMSo3MlmQhzlbv80/edit?usp=sharing" target="_blank" rel="noopener">▦ 구글 시트에서 전체 기록 보기</a>
+    <a class="sheetbtn" href="https://script.google.com/u/0/home/projects/1D6N7GbqHmic5_K42RFdd-y3cA_hxgjjKagXfgWMKHhftLWMbMKpTHlD2/edit" target="_blank" rel="noopener">⚙ 앱스 스크립트 열기</a>
+  </div>
+</footer>
 
 <script>
 /* ── 구글 시트 연결 주소: 앱스 스크립트를 배포하고 받은 주소를 따옴표 안에 넣으세요 ── */
-var SCRIPT_URL = "";
+var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx8tIpf3Kme1_xq3S2GXFHpLreEUv4O3cwtr3mX0KPUSsoHKuDfkD1Sasl6Ldq4bwrYyA/exec";
 
 var HOST = /[?&]host\b/.test(location.search);
 var DEMO = !SCRIPT_URL;
