@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>오늘의 커피 담당자</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ── 여기만 바꾸면 됩니다 ── */
+:root{
+  --navy:#132A4A; --navy-2:#0B1C33; --slate:#4F6073;
+  --gold:#C9A13B; --gold-2:#E7CB7A; --gold-d:#9A7524;
+  --cream:#FBF8F1; --cream-2:#F3E5C0; --paper:#FFFEFA;
+  --ice:#EAF0F8; --ink:#1B2433; --muted:#6B7280; --line:#E5DFD0;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Noto Sans KR",system-ui,sans-serif;color:var(--ink);background:var(--cream);
+  background-image:linear-gradient(rgba(19,42,74,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(19,42,74,.035) 1px,transparent 1px);
+  background-size:26px 26px;min-height:100vh;display:flex;flex-direction:column}
+.serif{font-family:"Noto Serif KR",serif}
+header{overflow:hidden;background:var(--navy);color:#fff;text-align:center;padding:26px 16px 22px;border-bottom:4px solid var(--gold)}
+.emb{width:56px;height:56px;margin:0 auto 10px;border:2px solid var(--gold-2);border-radius:50%;display:grid;place-items:center;position:relative}
+.emb::before,.emb::after{content:"";position:absolute;top:50%;width:150px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.emb::before{right:66px}.emb::after{left:66px;transform:scaleX(-1)}
+.emb svg{width:28px;height:28px;color:var(--gold-2)}
+header h1{margin:0;font-size:clamp(26px,5vw,36px);color:var(--cream-2);letter-spacing:.02em}
+header p{margin:6px 0 0;font-size:14.5px;color:#D5DCE6}
+.mode{display:inline-block;margin-top:10px;font-size:12.5px;font-weight:700;padding:4px 12px;border-radius:99px;background:var(--gold);color:var(--navy-2)}
+.mode.demo{background:#F4D8C8;color:#7A2E12}
+main{flex:1;width:100%;max-width:1120px;margin:0 auto;padding:30px 16px 40px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.card{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:14px;padding:26px 26px 24px;box-shadow:0 6px 22px rgba(19,42,74,.07);min-width:0}
+.card.ice{background:var(--ice)}
+.card.dark{background:var(--slate);border-top-color:var(--slate);color:#fff}
+.kick{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold-d);text-transform:uppercase}
+.dark .kick{color:var(--gold-2)}
+.card h2{margin:4px 0 4px;font-size:24px}
+.sub{margin:0;color:var(--muted);font-size:14.5px}
+.dark .sub{color:#E3E8EF}
+.rule{height:1px;margin:18px 0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+label{display:block;font-weight:700;font-size:14.5px;margin:14px 0 6px}
+input{width:100%;font:inherit;font-size:16px;padding:13px 14px;border:1px solid #D6D0C2;border-radius:10px;background:#fff;color:var(--ink)}
+input:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+.btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;font-size:16px;padding:13px;border-radius:10px;border:0;cursor:pointer;margin-top:14px;box-shadow:0 3px 0 rgba(0,0,0,.14)}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn:disabled{opacity:.5;cursor:default;transform:none}
+.btn.navy{background:var(--navy);color:#fff}
+.btn.cream{background:var(--cream-2);color:var(--navy)}
+.btn.gold{background:var(--gold);color:var(--navy-2)}
+.msg{min-height:22px;margin:10px 0 0;font-size:14px;color:var(--gold-d);font-weight:500}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.count{flex:none;width:46px;height:46px;border-radius:50%;background:var(--cream-2);border:2px solid var(--gold);display:grid;place-items:center;font-weight:700;font-size:18px;color:var(--navy)}
+.list{list-style:none;margin:0;padding:0;max-height:430px;overflow:auto}
+.list li{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px dashed #CFD8E4}
+.list .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-size:13px;display:grid;place-items:center}
+.list .who{flex:1;min-width:0}
+.list .who b{display:block}
+.list .who span{color:var(--slate);font-size:14px}
+.list .x{flex:none;border:0;background:transparent;color:#9AA3AF;font-size:13px;cursor:pointer;padding:6px 8px;border-radius:6px}
+.list .x:hover{background:#fff;color:#B42318}
+.list li.win{background:var(--cream-2);border-radius:8px}
+.empty{text-align:center;color:var(--slate);font-style:italic;padding:40px 0}
+.foot{margin-top:14px;padding-top:12px;border-top:1px solid #D4DCE7;font-size:13px;color:var(--slate)}
+.wheelcard{text-align:center}
+.wheelwrap{position:relative;width:min(100%,380px);aspect-ratio:1;margin:22px auto 6px}
+.pin{position:absolute;left:50%;top:-6px;transform:translateX(-50%);width:0;height:0;border-left:17px solid transparent;border-right:17px solid transparent;border-top:30px solid var(--gold);z-index:3;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))}
+#wheel{width:100%;height:100%;border-radius:50%;box-shadow:0 12px 30px rgba(0,0,0,.18);transition:transform 5.2s cubic-bezier(.12,.72,.08,1)}
+.hub{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:var(--navy);border:3px solid var(--gold-2);display:grid;place-items:center;z-index:2}
+.hub svg{width:26px;height:26px;color:var(--gold-2)}
+.hostonly{display:none}
+body.host .hostonly{display:block}
+.result{text-align:center;padding:10px 0 4px}
+.result .big{font-size:clamp(30px,6vw,44px);color:var(--cream-2);margin:6px 0 2px}
+.result .menu{color:#E3E8EF}
+.medal{width:46px;height:46px;border-radius:50%;background:var(--gold);display:inline-grid;place-items:center;margin-right:10px;vertical-align:middle}
+.medal svg{width:24px;height:24px;color:var(--navy)}
+.dark .rule{background:rgba(255,255,255,.25)}
+.sum h3{margin:0 0 10px;font-size:18px;color:#fff}
+.sum ul{margin:0;padding:0;list-style:none}
+.sum li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:15px}
+.sum li b{color:var(--cream-2)}
+.sum .none{color:#D5DCE6;font-size:14.5px}
+footer{background:var(--navy-2);color:#C8D0DB;text-align:center;padding:18px 16px;font-size:14px}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.confetti i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;animation:fall 2.6s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+@media (max-width:820px){main{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){#wheel{transition:none}.confetti{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="emb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3v2M11 3v2M14 3v2"/></svg></div>
+  <h1 class="serif">오늘의 커피 담당자</h1>
+  <p>공정한 룰렛으로 오늘의 커피 심부름 담당자를 뽑습니다</p>
+  <span class="mode" id="mode" hidden></span>
+</header>
+
+<main>
+  <section class="card">
+    <h2 class="serif">주문 접수</h2>
+    <p class="sub">이름과 원하는 메뉴를 적어 주세요.</p>
+    <div class="rule"></div>
+    <form id="f" autocomplete="off">
+      <label for="nm">이름</label>
+      <input id="nm" maxlength="12" placeholder="예: 김하늘" required>
+      <label for="mn">주문 메뉴</label>
+      <input id="mn" maxlength="24" placeholder="예: 아이스 아메리카노" required>
+      <button class="btn navy" type="submit" id="addBtn">＋ 주문 목록에 등록</button>
+    </form>
+    <p class="msg" id="msg" role="status"></p>
+    <div class="hostonly">
+      <button class="btn cream" type="button" id="resetBtn">↺ 새 접수 시작하기</button>
+    </div>
+  </section>
+
+  <section class="card ice">
+    <div class="head">
+      <div><div class="kick">Today's order list</div><h2 class="serif">현재 접수 현황</h2></div>
+      <div class="count" id="count">0</div>
+    </div>
+    <div class="rule"></div>
+    <ul class="list" id="list"></ul>
+    <p class="foot">내가 등록한 주문은 언제든지 지울 수 있습니다.</p>
+  </section>
+
+  <section class="card wheelcard">
+    <div class="kick">Random selection</div>
+    <h2 class="serif">오늘의 커피 담당자 룰렛</h2>
+    <div class="wheelwrap">
+      <div class="pin"></div>
+      <svg id="wheel" viewBox="-100 -100 200 200" aria-label="룰렛"></svg>
+      <div class="hub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/></svg></div>
+    </div>
+    <div class="hostonly"><button class="btn gold" type="button" id="spinBtn">⟳ 룰렛 돌리기</button></div>
+    <p class="sub" id="spinNote" style="margin-top:14px">강사가 룰렛을 돌리면 모두의 화면에서 함께 돌아갑니다.</p>
+  </section>
+
+  <section class="card dark">
+    <div><span class="medal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-3 5 3-1.5-7.5"/></svg></span><span style="display:inline-block;vertical-align:middle"><span class="kick">Today's assignee</span><h2 class="serif" style="margin:2px 0 0">커피 담당자 선정 결과</h2></span></div>
+    <div class="rule"></div>
+    <div class="result" id="result"><div class="big serif">—</div><p class="sub">룰렛을 돌려 담당자를 뽑아 보세요.</p></div>
+    <div class="rule"></div>
+    <div class="sum"><h3 class="serif">전체 주문 정리</h3><div id="sum"><p class="none">담당자가 정해지면 전체 주문이 여기에 정리됩니다.</p></div></div>
+  </section>
+</main>
+<footer>오늘도 즐거운 커피 시간 보내세요 · 이 앱도 클로드와 대화로 만들었습니다</footer>
+
+<script>
+/* ── 구글 시트 연결 주소: 앱스 스크립트를 배포하고 받은 주소를 따옴표 안에 넣으세요 ── */
+var SCRIPT_URL = "";
+
+var HOST = /[?&]host\b/.test(location.search);
+var DEMO = !SCRIPT_URL;
+var POLL_MS = 4000;
+var state = {round:1, orders:[], winner:null};
+var shownSpin = null, spinning = false, rot = 0;
+var mine = {};
+try{ mine = JSON.parse(localStorage.getItem('coffee_mine')||'{}'); }catch(e){ mine = {}; }
+function saveMine(){ try{ localStorage.setItem('coffee_mine', JSON.stringify(mine)); }catch(e){} }
+
+var $ = function(id){ return document.getElementById(id); };
+if(HOST) document.body.classList.add('host');
+var modeEl = $('mode');
+if(DEMO){ modeEl.hidden=false; modeEl.className='mode demo'; modeEl.textContent='미리보기 — 이 컴퓨터에만 저장됩니다'; document.body.classList.add('host'); HOST=true; }
+else if(HOST){ modeEl.hidden=false; modeEl.textContent='강사 화면'; }
+if(HOST) $('spinNote').textContent='룰렛을 돌리면 모든 선생님 화면에서 함께 돌아갑니다.';
+
+/* ── 저장소: 구글 시트 또는 미리보기(이 브라우저) ── */
+function demoLoad(){ try{ return JSON.parse(localStorage.getItem('coffee_demo')) || {round:1,orders:[],winner:null}; }catch(e){ return {round:1,orders:[],winner:null}; } }
+function demoSave(s){ try{ localStorage.setItem('coffee_demo', JSON.stringify(s)); }catch(e){} }
+function uid(){ return Math.random().toString(36).slice(2,10); }
+
+function api(body){
+  if(DEMO){
+    var s = demoLoad();
+    if(body){
+      if(body.action==='add'){ s.orders.push({id:uid(), name:body.name, menu:body.menu, token:body.token}); s.winner=null; }
+      if(body.action==='delete'){ s.orders = s.orders.filter(function(o){ return !(o.id===body.id && (HOST || o.token===body.token)); }); }
+      if(body.action==='spin' && s.orders.length){ var w=s.orders[Math.floor(Math.random()*s.orders.length)]; s.winner={id:w.id,name:w.name,menu:w.menu,at:Date.now()}; }
+      if(body.action==='reset'){ s={round:s.round+1,orders:[],winner:null}; }
+      demoSave(s);
+    }
+    return Promise.resolve({ok:true, round:s.round, winner:s.winner, orders:s.orders.map(function(o){return {id:o.id,name:o.name,menu:o.menu};})});
+  }
+  var opt = body ? {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(body)} : {method:'GET'};
+  var url = body ? SCRIPT_URL : SCRIPT_URL + (SCRIPT_URL.indexOf('?')<0?'?':'&') + 't=' + Date.now();
+  return fetch(url, opt).then(function(r){ return r.json(); });
+}
+
+/* ── 그리기 ── */
+function esc(t){ var d=document.createElement('div'); d.textContent=t==null?'':String(t); return d.innerHTML; }
+var COLORS = ['#132A4A','#C9A13B','#FFFEFA','#4F6073','#E7CB7A','#F3E5C0'];
+var TEXT = {'#132A4A':'#F3E5C0','#C9A13B':'#132A4A','#FFFEFA':'#132A4A','#4F6073':'#fff','#E7CB7A':'#132A4A','#F3E5C0':'#132A4A'};
+function drawWheel(){
+  var o = state.orders, svg = $('wheel'), n = o.length, h = '';
+  h += '<circle r="99" fill="#E9DFC6" stroke="#9A7524" stroke-width="2"/>';
+  if(!n){
+    h += '<circle r="92" fill="#EFE7D4"/><text y="-8" text-anchor="middle" font-size="9.5" font-weight="700" fill="#132A4A">등록된 주문이 없습니다</text><text y="6" text-anchor="middle" font-size="6.5" fill="#6B7280">이름과 메뉴를 등록해 주세요</text>';
+  } else if(n===1){
+    h += '<circle r="92" fill="#132A4A"/><text y="-40" text-anchor="middle" font-size="11" font-weight="700" fill="#F3E5C0">'+esc(o[0].name)+'</text>';
+  } else {
+    var a = 360/n;
+    for(var i=0;i<n;i++){
+      var s=(i*a-90)*Math.PI/180, e=((i+1)*a-90)*Math.PI/180, big=a>180?1:0;
+      var c = COLORS[i%COLORS.length]; if(n%COLORS.length===1 && i===n-1) c = COLORS[2];
+      h += '<path d="M0 0 L'+(92*Math.cos(s)).toFixed(2)+' '+(92*Math.sin(s)).toFixed(2)+' A92 92 0 '+big+' 1 '+(92*Math.cos(e)).toFixed(2)+' '+(92*Math.sin(e)).toFixed(2)+' Z" fill="'+c+'" stroke="#C9A13B" stroke-width=".6"/>';
+      var mid = i*a + a/2, fs = Math.max(5.5, Math.min(10, 150/n));
+      var nm = o[i].name.length>6 ? o[i].name.slice(0,6)+'…' : o[i].name;
+      var tf = mid>180 ? 'rotate('+(mid+90)+') translate(-58 0)' : 'rotate('+(mid-90)+') translate(58 0)';
+      h += '<text transform="'+tf+'" text-anchor="middle" dominant-baseline="middle" font-size="'+fs.toFixed(1)+'" font-weight="700" fill="'+TEXT[c]+'" font-family="Noto Sans KR, sans-serif">'+esc(nm)+'</text>';
+    }
+  }
+  h += '<circle r="92" fill="none" stroke="#E7CB7A" stroke-width="2.4"/>';
+  svg.innerHTML = h;
+}
+function render(){
+  var o = state.orders;
+  $('count').textContent = o.length;
+  var wid = state.winner && state.winner.id;
+  $('list').innerHTML = o.length ? o.map(function(x,i){
+    var canDel = HOST || mine[x.id];
+    return '<li class="'+(x.id===wid&&!spinning?'win':'')+'"><span class="n">'+(i+1)+'</span><span class="who"><b>'+esc(x.name)+'</b><span>'+esc(x.menu)+'</span></span>'+(canDel?'<button class="x" data-id="'+esc(x.id)+'" aria-label="지우기">지우기</button>':'')+'</li>';
+  }).join('') : '<li class="empty" style="border:0;display:block">아직 등록된 주문이 없습니다.</li>';
+  if(!spinning) drawWheel();
+  if(state.winner && !spinning){
+    $('result').innerHTML = '<p class="sub">오늘의 커피 담당자는</p><div class="big serif">'+esc(state.winner.name)+' 선생님</div><p class="menu">축하합니다! ☕</p>';
+    var groups = {};
+    o.forEach(function(x){ var k=x.menu.trim(); groups[k]=(groups[k]||0)+1; });
+    $('sum').innerHTML = '<ul>'+Object.keys(groups).map(function(k){ return '<li><span>'+esc(k)+'</span><b>'+groups[k]+'잔</b></li>'; }).join('')+'<li><span>합계</span><b>'+o.length+'잔</b></li></ul>';
+  } else if(!state.winner){
+    $('result').innerHTML = '<div class="big serif">—</div><p class="sub">룰렛을 돌려 담당자를 뽑아 보세요.</p>';
+    $('sum').innerHTML = '<p class="none">담당자가 정해지면 전체 주문이 여기에 정리됩니다.</p>';
+  }
+  $('spinBtn').disabled = spinning || o.length<2;
+}
+
+/* ── 룰렛 애니메이션: 뽑힌 사람 칸에서 멈춥니다 ── */
+function animateTo(winnerId){
+  var o = state.orders, idx = -1;
+  for(var i=0;i<o.length;i++) if(o[i].id===winnerId) idx=i;
+  if(idx<0 || o.length<2){ render(); return; }
+  spinning = true; render(); drawWheel();
+  var a = 360/o.length, mid = idx*a + a/2;
+  var jitter = (Math.random()-.5)*a*.6;
+  var target = 360 - mid - jitter;
+  var cur = ((rot%360)+360)%360;
+  rot += 360*6 + ((target - cur + 360) % 360);
+  var w = $('wheel');
+  w.style.transform = 'rotate('+rot+'deg)';
+  setTimeout(function(){ spinning=false; render(); confetti(); }, 5400);
+}
+function confetti(){
+  var box=document.createElement('div'); box.className='confetti';
+  var cs=['#C9A13B','#E7CB7A','#132A4A','#F3E5C0','#4F6073'];
+  for(var i=0;i<70;i++){ var p=document.createElement('i'); p.style.left=(Math.random()*100)+'vw'; p.style.background=cs[i%cs.length]; p.style.animationDelay=(Math.random()*.8)+'s'; p.style.animationDuration=(2+Math.random()*1.4)+'s'; box.appendChild(p); }
+  document.body.appendChild(box); setTimeout(function(){ box.remove(); }, 4200);
+}
+
+/* ── 받아오기 ── */
+function apply(d){
+  if(!d || !d.ok) return;
+  var prevRound = state.round;
+  state.round = d.round; state.orders = d.orders||[]; state.winner = d.winner||null;
+  if(prevRound!==d.round){ shownSpin=''; rot=0; $('wheel').style.transition='none'; $('wheel').style.transform='rotate(0deg)'; void $('wheel').offsetWidth; $('wheel').style.transition=''; }
+  var at = (state.winner && state.winner.at) || '';
+  if(!inited){ inited=true; if(!justSpun){ shownSpin=at; render(); return; } }
+  if(at && at!==shownSpin){
+    shownSpin = at; justSpun=false;
+    animateTo(state.winner.id);
+  } else if(!spinning){ render(); }
+}
+var justSpun=false, busy=false, inited=false;
+function refresh(){
+  if(busy||spinning) return;
+  api().then(apply).catch(function(){ $('msg').textContent='연결이 잠시 불안정합니다. 곧 다시 불러옵니다.'; });
+}
+function send(body, okMsg){
+  busy=true;
+  return api(body).then(function(d){ busy=false; if(d && d.ok===false){ $('msg').textContent=d.error||'처리하지 못했습니다.'; return; } if(okMsg) $('msg').textContent=okMsg; apply(d); })
+    .catch(function(){ busy=false; $('msg').textContent='보내지 못했습니다. 잠시 뒤 다시 눌러 주세요.'; });
+}
+
+/* ── 버튼 ── */
+$('f').addEventListener('submit', function(e){
+  e.preventDefault();
+  var name=$('nm').value.trim(), menu=$('mn').value.trim();
+  if(!name||!menu) return;
+  var token = uid()+uid();
+  $('addBtn').disabled=true;
+  send({action:'add', name:name, menu:menu, token:token}, name+' 선생님, 등록되었습니다.').then(function(){
+    $('addBtn').disabled=false;
+    var me = state.orders.filter(function(o){ return o.name===name && o.menu===menu; }).pop();
+    if(me){ mine[me.id]=token; saveMine(); render(); }
+    $('mn').value='';
+  });
+});
+$('list').addEventListener('click', function(e){
+  var b=e.target.closest('.x'); if(!b) return;
+  var id=b.getAttribute('data-id');
+  send({action:'delete', id:id, token:mine[id]||'', key:hostKey()}, '지웠습니다.').then(function(){ delete mine[id]; saveMine(); });
+});
+var HK=null;
+function hostKey(){ if(!HOST||DEMO) return ''; if(HK===null){ HK = (prompt('강사 암호를 넣어 주세요')||'').trim(); } return HK; }
+$('spinBtn').addEventListener('click', function(){
+  if(state.orders.length<2) return;
+  justSpun=true;
+  send({action:'spin', key:hostKey()});
+});
+$('resetBtn').addEventListener('click', function(){
+  if(!confirm('지금 목록을 비우고 새로 받을까요?')) return;
+  send({action:'reset', key:hostKey()}, '새 접수를 시작했습니다.');
+});
+
+render(); refresh();
+setInterval(function(){ if(!document.hidden) refresh(); }, POLL_MS);
+document.addEventListener('visibilitychange', function(){ if(!document.hidden) refresh(); });
+</script>
+</body>
+</html>
